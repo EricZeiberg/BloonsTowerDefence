@@ -1,0 +1,5 @@
+name: BloonsTowerDefence
+main: me.masterejay.btd.BloonsTowerDefence
+version: 1.0
+authors: [MasterEjzz]
+depends: [WorldEdit]
