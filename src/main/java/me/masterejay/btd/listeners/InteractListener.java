@@ -26,8 +26,14 @@ public class InteractListener implements Listener{
 				}
 				if (!(event.getPlayer().getTargetBlock(null, 30).getType()== Material.GRASS)){
 					event.getPlayer().sendMessage(ChatColor.RED + "You can't place a tower there!");
+					return;
+				}
+				if (MatchHandler.getCoins() < 200){
+					event.getPlayer().sendMessage(ChatColor.RED + "You don't have enough money to place the tower");
+					return;
 				}
 				MobUtil.placeSkeleton(event.getPlayer());
+				MatchHandler.setCoins(MatchHandler.getCoins() - 300);
 			}
 
 

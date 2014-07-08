@@ -39,6 +39,7 @@ public class WaveHandler{
 		BloonsTowerDefence.setGameStatus(GameStatus.IN_ROUND);
 		MatchHandler.setTowersEnabled(false);
 		endDetector();
+		setKILLED_ZOMBIES(0);
 		final Wave finalWave = wave;
 		SPAWN_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(BloonsTowerDefence.get(), new Runnable(){
 			int zombie = 0;
@@ -82,5 +83,11 @@ public class WaveHandler{
 		}, 0L, 5L);
 	}
 
+	public static int getKILLED_ZOMBIES(){
+		return KILLED_ZOMBIES;
+	}
 
+	public static void setKILLED_ZOMBIES(int KILLED_ZOMBIES){
+		WaveHandler.KILLED_ZOMBIES=KILLED_ZOMBIES;
+	}
 }

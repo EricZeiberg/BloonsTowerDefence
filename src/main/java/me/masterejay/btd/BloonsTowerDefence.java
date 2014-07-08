@@ -14,6 +14,7 @@ import me.masterejay.btd.listeners.DeathListener;
 import me.masterejay.btd.listeners.InteractListener;
 import me.masterejay.btd.map.MapInfo;
 import me.masterejay.btd.map.MapLoader;
+import me.masterejay.btd.match.MatchHandler;
 import me.masterejay.btd.waves.Wave;
 import me.masterejay.btd.waves.WaveBuilder;
 import org.bukkit.Bukkit;

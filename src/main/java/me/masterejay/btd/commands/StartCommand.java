@@ -24,5 +24,6 @@ public class StartCommand {
 		CountdownMethods.start(new MatchStartCountdown(), 30);
 		Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "You have 30 seconds to place your initial towers down!");
 		MatchHandler.setTowersEnabled(true);
+		MatchHandler.setupBar();
 	}
 }
