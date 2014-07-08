@@ -3,17 +3,22 @@ package me.masterejay.btd.waves;
 import me.masterejay.btd.BloonsTowerDefence;
 import me.masterejay.btd.enums.GameStatus;
 import me.masterejay.btd.enums.Tier;
+import me.masterejay.btd.match.MatchHandler;
+import me.masterejay.btd.utils.ChatUtil;
 import me.masterejay.btd.utils.MobUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
 /**
  * @author MasterEjay
  */
 public class WaveHandler{
 
-	static int ID = 0;
+	static int SPAWN_ID = 0;
+	static int END_ID = 0;
+	public static int KILLED_ZOMBIES;
 	public static void startWave(int waveNumber){
-
       Wave wave = null;
 
 	  for (Wave w : WaveBuilder.waves){
@@ -31,22 +36,50 @@ public class WaveHandler{
 		   }
 	   }
 		BloonsTowerDefence.setCurrentWave(wave);
+		BloonsTowerDefence.setGameStatus(GameStatus.IN_ROUND);
+		MatchHandler.setTowersEnabled(false);
+		endDetector();
 		final Wave finalWave = wave;
-		ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(BloonsTowerDefence.get(), new Runnable(){
+		SPAWN_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(BloonsTowerDefence.get(), new Runnable(){
 			int zombie = 0;
 			@Override
 			public void run(){
 				MobUtil.spawnZombie(finalWave.getZombies().get(zombie));
 				zombie++;
+				if (zombie + 1 > finalWave.getZombies().size()){
+					Bukkit.getScheduler().cancelTask(SPAWN_ID);
+				}
 			}
 		}, 0L, wave.getInterval());
 
-		Bukkit.getScheduler().scheduleSyncDelayedTask(BloonsTowerDefence.get(), new Runnable(){
+	}
+
+
+	public static void endWave(int waveNumber){
+		ChatUtil.broadcastBlockMessage("Round " + waveNumber + " has ended!");
+		BloonsTowerDefence.setCurrentWave(null);
+		BloonsTowerDefence.setGameStatus(GameStatus.BETWEEN_ROUND);
+		MatchHandler.setTowersEnabled(true);
+	}
+
+	private static void endDetector(){
+		END_ID = Bukkit.getScheduler().scheduleSyncRepeatingTask(BloonsTowerDefence.get(), new Runnable(){
 			@Override
 			public void run(){
-			   Bukkit.getScheduler().cancelTask(ID);
+				for (Entity e : Bukkit.getWorlds().get(0).getEntities()){
+					if (e.getType() == EntityType.ZOMBIE){
+					   if (e.getLocation().distance(BloonsTowerDefence.getMapInfo().getEndLocation()) < 1){
+						   e.remove();
+						   KILLED_ZOMBIES++;
+						   if (KILLED_ZOMBIES == BloonsTowerDefence.getCurrentWave().getZombies().size()){
+							   BloonsTowerDefence.getCurrentWave().setFinished(true);
+							   Bukkit.getScheduler().cancelTask(END_ID);
+						   }
+					   }
+					}
+				}
 			}
-		}, finalWave.getZombies().size() * wave.getInterval());
+		}, 0L, 5L);
 	}
 
 

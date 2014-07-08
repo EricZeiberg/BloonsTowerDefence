@@ -9,6 +9,7 @@ import me.masterejay.btd.countdowns.Countdown;
 import me.masterejay.btd.countdowns.CountdownMethods;
 import me.masterejay.btd.countdowns.MatchStartCountdown;
 import me.masterejay.btd.enums.GameStatus;
+import me.masterejay.btd.match.MatchHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -22,5 +23,6 @@ public class StartCommand {
 		BloonsTowerDefence.setGameStatus(GameStatus.STARTING);
 		CountdownMethods.start(new MatchStartCountdown(), 30);
 		Bukkit.broadcastMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "You have 30 seconds to place your initial towers down!");
+		MatchHandler.setTowersEnabled(true);
 	}
 }

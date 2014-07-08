@@ -10,6 +10,7 @@ import com.sk89q.minecraft.util.commands.WrappedCommandException;
 import me.masterejay.btd.commands.StartCommand;
 import me.masterejay.btd.enums.GameStatus;
 import me.masterejay.btd.listeners.ConnectionListener;
+import me.masterejay.btd.listeners.DeathListener;
 import me.masterejay.btd.listeners.InteractListener;
 import me.masterejay.btd.map.MapInfo;
 import me.masterejay.btd.map.MapLoader;
@@ -20,6 +21,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.dom4j.Document;
@@ -46,11 +48,18 @@ public class BloonsTowerDefence extends JavaPlugin {
 		regListeners();
 		parse();
 		WaveBuilder.setupWaves();
+		clearEntities();
 
 	}
 
 	public static BloonsTowerDefence get(){
 		return plugin;
+	}
+
+	private void clearEntities(){
+		for (Entity e : Bukkit.getWorlds().get(0).getEntities()){
+			e.remove();
+		}
 	}
 
 	private void parse(){
@@ -85,6 +94,7 @@ public class BloonsTowerDefence extends JavaPlugin {
 	private void regListeners(){
 	   Bukkit.getPluginManager().registerEvents(new ConnectionListener(), this);
 	   Bukkit.getPluginManager().registerEvents(new InteractListener(), this);
+		Bukkit.getPluginManager().registerEvents(new DeathListener(), this);
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
