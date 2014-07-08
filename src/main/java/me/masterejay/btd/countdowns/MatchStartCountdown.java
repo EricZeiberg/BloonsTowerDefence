@@ -1,5 +1,6 @@
 package me.masterejay.btd.countdowns;
 
+import me.masterejay.btd.waves.WaveHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -12,6 +13,7 @@ public class MatchStartCountdown extends Countdown{
         Bukkit.broadcastMessage(ChatColor.DARK_PURPLE+"############");
         Bukkit.broadcastMessage(ChatColor.GREEN+"Round 1 has started!");
         Bukkit.broadcastMessage(ChatColor.DARK_PURPLE+"############");
+	    WaveHandler.startWave(1);
     }
 
     @Override

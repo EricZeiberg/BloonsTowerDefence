@@ -1,5 +1,6 @@
 package me.masterejay.btd.waves;
 
+import me.masterejay.btd.enums.Tier;
 import org.bukkit.entity.Zombie;
 
 import java.util.List;
@@ -10,11 +11,11 @@ import java.util.List;
 public class Wave {
 
 	int waveNumber;
-	List<Zombie> zombies;
+	List<Tier> zombies;
 	String message;
 	long interval;
 
-	public Wave(int waveNumber,List<Zombie> zombies,String message,long interval){
+	public Wave(int waveNumber,List<Tier> zombies,String message,long interval){
 		this.waveNumber=waveNumber;
 		this.zombies=zombies;
 		this.message=message;
@@ -25,7 +26,7 @@ public class Wave {
 		return waveNumber;
 	}
 
-	public List<Zombie> getZombies(){
+	public List<Tier> getZombies(){
 		return zombies;
 	}
 

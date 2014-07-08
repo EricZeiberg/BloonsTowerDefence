@@ -13,6 +13,8 @@ import me.masterejay.btd.listeners.ConnectionListener;
 import me.masterejay.btd.listeners.InteractListener;
 import me.masterejay.btd.map.MapInfo;
 import me.masterejay.btd.map.MapLoader;
+import me.masterejay.btd.waves.Wave;
+import me.masterejay.btd.waves.WaveBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,6 +36,7 @@ public class BloonsTowerDefence extends JavaPlugin {
 	private static GameStatus gameStatus = GameStatus.WAITING;
 	private static MapInfo mapInfo;
 	private static BloonsTowerDefence plugin;
+	public static Wave currentWave;
 
 	@Override
 	public void onEnable(){
@@ -42,6 +45,7 @@ public class BloonsTowerDefence extends JavaPlugin {
 		setupCommands();
 		regListeners();
 		parse();
+		WaveBuilder.setupWaves();
 
 	}
 
@@ -117,5 +121,13 @@ public class BloonsTowerDefence extends JavaPlugin {
 
 	public static void setGameStatus(GameStatus status){
 		gameStatus=status;
+	}
+
+	public static Wave getCurrentWave(){
+		return currentWave;
+	}
+
+	public static void setCurrentWave(Wave currentWave){
+		BloonsTowerDefence.currentWave=currentWave;
 	}
 }
